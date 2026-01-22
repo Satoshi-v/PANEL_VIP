@@ -1,0 +1,70 @@
+{
+  "name": "dtunnel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node build/index.js",
+    "dev": "tsx watch src/index.ts",
+    "prod": "pm2 start ecosystem.config.js",
+    "kill": "pm2 delete ecosystem.config.js",
+    "lint": "eslint --fix . && prettier --write .",
+    "lint:check": "prettier --check .",
+    "logs": "pm2 logs",
+    
+    // ============================================
+    // 🎯 NUEVOS SCRIPTS AÑADIDOS PARA ADMINISTRADOR
+    // ============================================
+    "admin:create": "node create-admin.js",
+    "admin:reset": "npx prisma migrate reset --force && node create-admin.js",
+    "admin:update": "npx prisma migrate dev && node create-admin.js",
+    "admin:studio": "npx prisma studio",
+    "db:migrate": "npx prisma migrate dev",
+    "db:generate": "npx prisma generate",
+    "db:reset": "npx prisma migrate reset --force",
+    "db:status": "npx prisma migrate status",
+    "db:push": "npx prisma db push",
+    "setup": "npm install && npx prisma generate && npx prisma migrate dev && npm run admin:create",
+    "setup:full": "rm -rf node_modules package-lock.json && npm run setup",
+    "test:admin": "curl -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"username\":\"admin\",\"password\":\"DtunnelAdmin2024!\"}'"
+    // ============================================
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.2.0",
+    "@fastify/cors": "^8.4.1",
+    "@fastify/csrf": "^6.3.0",
+    "@fastify/formbody": "^7.4.0",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/multipart": "^8.0.0",
+    "@fastify/static": "^6.12.0",
+    "@fastify/view": "^8.2.0",
+    "@prisma/client": "^6.17.1",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "eta": "^3.2.0",
+    "fastify": "^4.24.3",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.17.1",
+    "request": "^2.88.2",
+    "zod": "^4.1.12",
+    
+    // ============================================
+    // 🔧 NUEVAS DEPENDENCIAS AÑADIDAS
+    // ============================================
+    "bcryptjs": "^2.4.3"  // Alternativa más compatible que bcrypt
+    // ============================================
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.2",
+    "@types/request": "^2.48.12",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.53.0",
+    "prettier": "2.8.8",
+    "tsx": "^4.7.0",
+    "typescript": "^5.1.6"
+  }
+}
